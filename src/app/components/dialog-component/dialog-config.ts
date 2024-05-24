@@ -2,9 +2,9 @@ export class DialogConfig<D = any> {
   data?: D;
   disableOverlayClose?: boolean;
   closeValue?: any;
-  overlayClass?: string;
-  closeOverlayClass?: string;
-  containerClass?: string;
-  closeContainerClass?: string;
+  overlayClassNames?: string[];
+  closeOverlayClassNames?: string[];
+  containerClassNames?: string[];
+  closeContainerClassNames?: string[];
   closeDelay?: number;
 }

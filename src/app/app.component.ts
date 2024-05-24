@@ -23,10 +23,10 @@ export class AppComponent {
   public openDialog(): void {
     this.dialogService.open(ExampleDialogComponent, {
       data: {message: 'Helloworld'},
-      overlayClass: 'pink-overlay',
-      closeOverlayClass: 'close-pink-overlay',
-      containerClass: 'custom-dialog',
-      closeContainerClass: 'close-custom-dialog',
+      overlayClassNames: ['custom-overlay', 'overlay-show'],
+      closeOverlayClassNames: ['overlay-hide'],
+      containerClassNames: ['custom-container', 'container-show'],
+      closeContainerClassNames: ['container-hide'],
       closeDelay: 300
     }).afterClosed.subscribe((result: any) => {
       console.log(result);

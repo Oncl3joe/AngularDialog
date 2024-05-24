@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectorRef, Component, ComponentRef, inject, OnDestroy, Type, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, ComponentRef, inject, OnDestroy, signal, Type, ViewChild, WritableSignal} from '@angular/core';
 import {DialogConfig} from './dialog-config';
 import {DialogRef} from './dialog-ref';
 import {DialogChildDirective} from './dialog-child.directive';
@@ -23,7 +23,9 @@ export class DialogComponent implements AfterViewInit, OnDestroy {
 
   private _childComponentType?: Type<any>;
   private _childComponentRef?: ComponentRef<any>;
-  private _isClosed: boolean = false;
+
+  public overlayStyles: WritableSignal<string[]>;
+  public containerStyles: WritableSignal<string[]>;
 
   @ViewChild(DialogChildDirective, {static: true}) private _dialogChildDirective!: DialogChildDirective;
 
@@ -31,23 +33,25 @@ export class DialogComponent implements AfterViewInit, OnDestroy {
     this._childComponentType = type;
   }
 
-  public get overlayClass(): string | null {
-    return this._config.overlayClass || null;
+  public get overlayClassNames(): string[] {
+    return this._config.overlayClassNames || [];
   }
 
-  public get closeOverlayClass(): string | null {
-    return this._config.closeOverlayClass || null;
+  public get closeOverlayClassNames(): string[] {
+    return this._config.closeOverlayClassNames || [];
   }
 
-  public get containerClass(): string | null {
-    return this._config.containerClass || null;
+  public get containerClassNames(): string[] {
+    return this._config.containerClassNames || [];
   }
 
-  public get closeContainerClass(): string | null {
-    return this._config.closeContainerClass || null;
+  public get closeContainerClassNames(): string[] {
+    return this._config.closeContainerClassNames || [];
   }
 
   constructor() {
+    this.overlayStyles = signal<string[]>([...(this.overlayClassNames || []) || 'dialog-overlay']);
+    this.containerStyles = signal<string[]>([...(this.containerClassNames || []) || 'dialog-container']);
   }
 
   ngAfterViewInit(): void {
@@ -59,7 +63,13 @@ export class DialogComponent implements AfterViewInit, OnDestroy {
       this._dialogRef.onClose.pipe(
         take(1)
       ).subscribe(() => {
-        this._isClosed = true;
+        if (this.closeOverlayClassNames && this.closeOverlayClassNames.length > 0) {
+          this.overlayStyles.update((values: string[]) => [...values, ...this.closeOverlayClassNames!]);
+        }
+
+        if (this.closeContainerClassNames && this.closeContainerClassNames.length > 0) {
+          this.containerStyles.update((values: string[]) => [...values, ...this.closeContainerClassNames!]);
+        }
       });
     }
   }
@@ -68,26 +78,6 @@ export class DialogComponent implements AfterViewInit, OnDestroy {
     if (this._childComponentRef) {
       this._childComponentRef.destroy();
     }
-  }
-
-  public getOverlayClass(): string[] {
-    const classNames: string[] = [this.overlayClass || 'dialog-overlay'];
-
-    if (this._isClosed && this.closeOverlayClass) {
-      classNames.push(this.closeOverlayClass);
-    }
-
-    return classNames;
-  }
-
-  public getContainerClass(): string[] {
-    const classNames: string[] = [this.containerClass || 'dialog-container'];
-
-    if (this._isClosed && this.closeContainerClass) {
-      classNames.push(this.closeContainerClass);
-    }
-
-    return classNames;
   }
 
   public onClickOverlay(): void {

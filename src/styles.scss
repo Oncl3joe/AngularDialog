@@ -1,0 +1,72 @@
+.pink-overlay {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  align-items: center;
+  justify-content: center;
+  animation: in-pink-animation 300ms ease-in-out;
+  animation-fill-mode: forwards;
+
+  @keyframes in-pink-animation {
+    0% {
+      background: rgba(255, 134, 196, 0.0);
+    }
+    100% {
+      background: rgba(255, 134, 196, 0.40);
+    }
+  }
+}
+
+.close-pink-overlay {
+  animation: out-pink-animation 300ms ease-in-out;
+  animation-fill-mode: forwards;
+
+  @keyframes out-pink-animation {
+    0% {
+      background: rgba(255, 134, 196, 0.40);
+    }
+    100% {
+      background: rgba(255, 134, 196, 0.0);
+    }
+  }
+}
+
+.custom-dialog {
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  background-color: white;
+  width: 50%;
+  height: 50%;
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  animation: fadeIn 200ms ease-in-out;
+  animation-fill-mode: forwards;
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+}
+
+.close-custom-dialog {
+  animation: fadeOut 200ms ease-in-out;
+  animation-fill-mode: forwards;
+
+  @keyframes fadeOut {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+}
+

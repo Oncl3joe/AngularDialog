@@ -1,0 +1,5 @@
+<div [ngClass]="getOverlayClass()" (click)="onClickOverlay()">
+  <div [ngClass]="getContainerClass()" (click)="$event.stopPropagation()">
+    <ng-template dialogChild></ng-template>
+  </div>
+</div>

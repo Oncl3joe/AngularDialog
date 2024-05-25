@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectorRef, Component, ComponentRef, inject, OnDestroy, signal, Type, ViewChild, WritableSignal} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, ComponentRef, inject, OnDestroy, signal, Type, ViewChild} from '@angular/core';
 import {DialogConfig} from './dialog-config';
 import {DialogRef} from './dialog-ref';
 import {DialogChildDirective} from './dialog-child.directive';

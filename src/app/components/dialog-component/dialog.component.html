@@ -1,5 +1,5 @@
-<div [ngClass]="overlayStyles()" (click)="onClickOverlay()">
-  <div [ngClass]="containerStyles()" (click)="$event.stopPropagation()">
+<div [ngClass]="overlayClass || 'dialog-overlay'" (click)="onClickOverlay()" [attr.data-status]="overlayStatus()">
+  <div [ngClass]="containerClass || 'dialog-container'" (click)="$event.stopPropagation()" [attr.data-status]="containerStatus()">
     <ng-template dialogChild></ng-template>
   </div>
 </div>

@@ -8,35 +8,18 @@
   right: 0;
   align-items: center;
   justify-content: center;
-}
 
-.overlay-show {
-  animation: in-animation 300ms ease-in-out;
-  animation-fill-mode: forwards;
+  &[data-status='opened'] {
+    animation: overlay-open-animation 300ms ease-in-out;
+    animation-fill-mode: forwards;
+  }
 
-  @keyframes in-animation {
-    0% {
-      background: rgba(210, 200, 249, 0);
-    }
-    100% {
-      background: rgba(210, 200, 249, 0.8);
-    }
+  &[data-status='closed'] {
+    animation: overlay-close-animation 300ms ease-in-out;
+    animation-fill-mode: forwards;
   }
 }
 
-.overlay-hide {
-  animation: out-animation 300ms ease-in-out;
-  animation-fill-mode: forwards;
-
-  @keyframes out-animation {
-    0% {
-      background: rgba(210, 200, 249, 0.8);
-    }
-    100% {
-      background: rgba(210, 200, 249, 0);
-    }
-  }
-}
 
 .custom-container {
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
@@ -46,36 +29,53 @@
   display: flex;
   flex-direction: column;
   padding: 8px;
-}
 
-.container-show {
-  animation: fadeIn 200ms ease-in-out;
-  animation-fill-mode: forwards;
+  &[data-status='opened'] {
+    animation: container-open-animation 300ms ease-in-out;
+    animation-fill-mode: forwards;
+  }
 
-  @keyframes fadeIn {
-    0% {
-      opacity: 0;
-      transform: translateY(-100vh);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  &[data-status='closed'] {
+    animation: container-close-animation 300ms ease-in-out;
+    animation-fill-mode: forwards;
   }
 }
 
-.container-hide {
-  animation: fadeOut 200ms ease-in-out;
-  animation-fill-mode: forwards;
-
-  @keyframes fadeOut {
-    0% {
-      opacity: 1;
-    }
-    100% {
-      opacity: 0;
-      transform: translateY(100vh);
-    }
+@keyframes overlay-open-animation {
+  0% {
+    background: rgba(210, 200, 249, 0);
+  }
+  100% {
+    background: rgba(210, 200, 249, 0.8);
   }
 }
 
+@keyframes overlay-close-animation {
+  0% {
+    background: rgba(210, 200, 249, 0.8);
+  }
+  100% {
+    background: rgba(210, 200, 249, 0);
+  }
+}
+
+@keyframes container-open-animation {
+  0% {
+    opacity: 0;
+    transform: translateY(-100vh);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes container-close-animation {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(100vh);
+  }
+}

@@ -24,8 +24,8 @@ export class DialogComponent implements AfterViewInit, OnDestroy {
   private _childComponentType?: Type<any>;
   private _childComponentRef?: ComponentRef<any>;
 
-  public overlayStyles: WritableSignal<string[]>;
-  public containerStyles: WritableSignal<string[]>;
+  public overlayStatus = signal<string>('opened');
+  public containerStatus = signal<string>('opened');
 
   @ViewChild(DialogChildDirective, {static: true}) private _dialogChildDirective!: DialogChildDirective;
 
@@ -33,25 +33,15 @@ export class DialogComponent implements AfterViewInit, OnDestroy {
     this._childComponentType = type;
   }
 
-  public get overlayClassNames(): string[] {
-    return this._config.overlayClassNames || [];
+  public get overlayClass(): string | null {
+    return this._config.overlayClass || null;
   }
 
-  public get closeOverlayClassNames(): string[] {
-    return this._config.closeOverlayClassNames || [];
-  }
-
-  public get containerClassNames(): string[] {
-    return this._config.containerClassNames || [];
-  }
-
-  public get closeContainerClassNames(): string[] {
-    return this._config.closeContainerClassNames || [];
+  public get containerClass(): string | null {
+    return this._config.containerClass || null;
   }
 
   constructor() {
-    this.overlayStyles = signal<string[]>([...(this.overlayClassNames || []) || 'dialog-overlay']);
-    this.containerStyles = signal<string[]>([...(this.containerClassNames || []) || 'dialog-container']);
   }
 
   ngAfterViewInit(): void {
@@ -63,13 +53,8 @@ export class DialogComponent implements AfterViewInit, OnDestroy {
       this._dialogRef.onClose.pipe(
         take(1)
       ).subscribe(() => {
-        if (this.closeOverlayClassNames && this.closeOverlayClassNames.length > 0) {
-          this.overlayStyles.update((values: string[]) => [...values, ...this.closeOverlayClassNames!]);
-        }
-
-        if (this.closeContainerClassNames && this.closeContainerClassNames.length > 0) {
-          this.containerStyles.update((values: string[]) => [...values, ...this.closeContainerClassNames!]);
-        }
+        this.overlayStatus.set('closed');
+        this.containerStatus.set('closed');
       });
     }
   }
